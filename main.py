@@ -1,8 +1,10 @@
 import flask
 from flask import Flask, render_template
+from flask_ngrok import run_with_ngrok
 import os
 
 app = Flask(__name__,static_folder='static')
+run_with_ngrok(app)
 
 video_index = 0
 video_folder = 'static/'
@@ -20,4 +22,5 @@ def next_video():
     return render_template('index.html', video_files=video_files, video_index=video_index)
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+   # app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run()
