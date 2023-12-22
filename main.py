@@ -1,18 +1,23 @@
 import flask
 from flask import Flask, render_template
+import os
 
 app = Flask(__name__,static_folder='static')
 
+video_index = 0
+video_folder = 'static/'
+# Specify the video file path
+video_files = [file for file in os.listdir(video_folder) if file.endswith(('.mp4', '.webm', '.ogg'))]
+
 @app.route('/')
 def index():
-    # Specify the video file path
-    video_path = '/static/khanyounes.mp4'
-    
-    # Render the HTML template with the video path
-    return render_template('index.html', video_path=video_path)
+    return render_template('index.html', video_files=video_files, video_index=video_index)
+
+@app.route('/next_video', methods=['POST'])
+def next_video():
+    global video_index
+    video_index = (video_index + 1) % len(video_files)
+    return render_template('index.html', video_files=video_files, video_index=video_index)
 
 if __name__ == '__main__':
-    #To make it accessible from other machines on the network, you need 
-    #to change the host binding to 0.0.0.0 when running your Flask app.
     app.run(host='0.0.0.0', port=5000, debug=True)
-
