@@ -13,8 +13,8 @@ def main():
     # Display the video player
     video_index = st.button('Next Video')
     
-    if video_index and video_index < len(video_files) - 1:
-        video_index += 1
+    if video_index :
+        video_index = (video_index + 1) % len(video_files)
 
  
     video_path = os.path.join(video_folder, video_files[video_index])
